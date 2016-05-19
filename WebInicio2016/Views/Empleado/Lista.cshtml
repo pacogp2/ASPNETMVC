@@ -1,0 +1,43 @@
+﻿@using WebInicio2016.EntidadesNegocio
+@{
+    ViewBag.Title = "Lista";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Lista</title>
+</head>
+<body>
+    <div>
+        @if (!@ViewBag.respuesta.OK)
+        {
+            <script>alert("Error = @ViewBag.respuesta.mensaje");</script>
+        }
+        else
+        {
+            <p>Listado de todos los empleados </P>
+            <table border=1>
+                <tr>
+                    <td>IdEmpleado</td>
+                    <td>Apellidos</td>
+                    <td>Nombre</td>
+                    <td>FechaNacimiento</td>
+                </tr>
+                @foreach (enEmpleado oenEmpleado in @ViewBag.respuesta.datos)
+                {
+                    <tr class="FilaDatos">
+                        <td>@oenEmpleado.IdEmpleado</td>
+                        <td>@oenEmpleado.Apellido</td>
+                        <td>@oenEmpleado.Nombre</td>
+                        <td>@oenEmpleado.FechaNacimiento.ToShortDateString()</td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</body>
+</html>
+

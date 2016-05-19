@@ -1,0 +1,81 @@
+﻿@using WebInicio2016.EntidadesNegocio
+@model List<enEmpleado>
+@{
+    Layout = null;
+    AjaxOptions configura = new AjaxOptions { HttpMethod = "get", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tbEmpleado", OnComplete = "mostrarSimbolo" };
+}
+
+<h2>ListaPag</h2>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Lista</title>
+    <link href="~/Content/ACME.css" rel="stylesheet" />
+</head>
+<body>
+    <div>
+        <table class="AnchoTotal">
+            <tr class="Titulo">
+                <td>
+                    Demo 09: Grilla Paginada y Ordenada Asíncrona con
+                    Ajax ActionLink y Vista Parcial
+                </td>
+            </tr>
+            <tr class="Subtitulo">
+                <td>Consulta de Empleados</td>  
+            </tr>
+            <tr>
+                <td>
+                    <table class="AnchoTotal">
+                        <thead>
+                            <tr class="FilaCabecera">
+                                <td style="width:70px">
+                                    @Ajax.ActionLink("Código", "Ordenar",
+                                     new { campo = "IdEmpleado" }, configura)
+                                    @Html.Raw(" ")<span id="spnIdEmpleado"></span>
+                                </td>
+                                <td style="width:200px">
+                                    @Ajax.ActionLink("Apellido", "Ordenar",
+                                     new { campo = "Apellido" }, configura)
+                                    @Html.Raw(" ")<span id="spnApellido"></span>
+                                </td>
+                                <td style="width:200px">
+                                    @Ajax.ActionLink("Nombre", "Ordenar",
+                                     new { campo = "Nombre" }, configura)
+                                    @Html.Raw(" ")<span id="spnNombre"></span>
+                                </td>
+                                <td style="width:100px">
+                                    @Ajax.ActionLink("Fecha Nac", "Ordenar",
+                                     new { campo = "FechaNacimiento" }, configura)
+                                    @Html.Raw(" ")<span id="spnFechaNacimiento"></span>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody id="tbEmpleado">
+                            @Html.Partial("Tabla", Model)
+                        </tbody>
+                        <tfoot>
+                            <tr class="FilaCabecera">
+                                <td colspan="4" class="Centrado">
+                                    @for (int i = 0; i <= ViewBag.IndiceUltimaPagina; i++)
+                                    {
+                                        @Ajax.ActionLink((i + 1).ToString(), "Paginar",
+                                         new { pagina = i }, configura)
+                                        @Html.Raw("  ")
+                                    }
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/rutinasPaginar.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,65 @@
+﻿@using WebInicio2016.EntidadesNegocio
+@{
+    ViewBag.Title = "Editar";
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Editar</title>
+</head>
+<body>
+    <div>
+        @if (!@ViewBag.respuesta.OK)
+        {
+            <script>alert("Error = @ViewBag.respuesta.mensaje");</script>
+        }
+        else
+        {
+            <h2>Editar empleado</h2>
+            <form method="post" action="" id="form-editar" class="input-wrapper green-gradient glossy" title="Editar">
+                <p class="message">
+                    ¿modificar empleado? Rellena los datos
+                    <span class="block-arrow"><span></span></span>
+                </p>
+
+                <ul class="inputs black-input large">
+                    <li><span class="icon-mail mid-margin-right"></span><input type="text" name="IdEmpleado" id="IdEmpleado" value="@ViewBag.respuesta.datos.IdEmpleado" class="input-unstyled" placeholder="IdEmpleado"></li>
+                </ul>
+                <ul class="inputs black-input large">
+                    <li><span class="icon-lock mid-margin-right"></span><input type="text" name="Apellido" id="Apellido" value="@ViewBag.respuesta.datos.Apellido" class="input-unstyled" placeholder="Apellido" autocomplete="off"></li>
+                    <li><span class="icon-lock mid-margin-right"></span><input type="text" name="Nombre" id="Nombre" value="@ViewBag.respuesta.datos.Nombre" class="input-unstyled" placeholder="Nombre" autocomplete="off"></li>
+                 </ul>
+
+                <button type="submit" class="button glossy full-width" id="send-editar">Modificar empleado</button>
+
+            </form>
+     <!--    @*       <p>Mostrar datos del empleado </p>
+            <table border=1>
+                <tr><td>IdEmpleado</td><td>@ViewBag.respuesta.datos.IdEmpleado</td></tr>
+                <tr><td>Apellidos</td><td>@ViewBag.respuesta.datos.Apellido</td></tr>
+                <tr><td>Nombre</td><td>@ViewBag.respuesta.datos.Nombre</td></tr>
+                <tr><td>Fecha nacimiento</td><td>@ViewBag.respuesta.datos.FechaNacimiento.ToShortDateString()</td></tr>
+      <!--    @*      @foreach (enEmpleado oenEmpleado in @ViewBag.respuesta.datos)
+                {
+                    <tr class="FilaDatos">
+                        <td>@oenEmpleado.IdEmpleado</td>
+                        <td>@oenEmpleado.Apellido</td>
+                        <td>@oenEmpleado.Nombre</td>
+                        <td>
+                            @oenEmpleado.FechaNacimiento.ToShortDateString()
+                        <a href="../EmpleadoMan/Editar?ID=@oenEmpleado.IdEmpleado"><button type="submit">Datos Empleado:@oenEmpleado.IdEmpleado </button></a> |
+                        @Html.ActionLink("EmpleadoMan", "Editar", new { ID = @oenEmpleado.IdEmpleado })
+                    </td>
+                </tr>   
+                }  
+            </table>    *@ -->
+     @*       @Html.ActionLink("EmpleadoMan", "ModiEmpleado")   *@
+        }
+    </div>
+    <div>
+        @Html.ActionLink("Listar los empleados", "Lista")
+    </div>
+</body>
+</html>
+

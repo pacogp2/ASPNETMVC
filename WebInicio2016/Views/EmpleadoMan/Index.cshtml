@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    Filtro para mostrar empleados:
+    <div>
+        <form method="post" action="" id="form-filtro" class="input-wrapper green-gradient glossy" title="Filtro">
+            <p class="message">
+                ¿datos del filtro? Rellena los datos
+                <span class="block-arrow"><span></span></span>
+            </p>
+            <ul class="inputs black-input large">
+                <li><span class="icon-lock mid-margin-right"></span><input type="text" name="Apellido" id="Apellido" value="" class="input-unstyled" placeholder="Apellido" autocomplete="off"></li>
+                <li><span class="icon-lock mid-margin-right"></span><input type="text" name="Nombre" id="Nombre" value="" class="input-unstyled" placeholder="Nombre" autocomplete="off"></li>
+            </ul>
+            <button type="submit" class="button glossy full-width" id="send-editar">Consultar por filtro</button>
+        </form>
+    </div>
+    <p>
+        @Html.ActionLink("Crear empleado", "Crear")
+    </p>
+</body>
+</html>
+

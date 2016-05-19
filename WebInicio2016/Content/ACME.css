@@ -1,0 +1,27 @@
+﻿body {
+    background-color:gray;
+}
+ .Titulo {
+    background-color:black;
+    color:white;
+    font-size:larger;
+}
+.Subtitulo {
+    background-color:white;
+    color:black;
+    font-size:large;
+}
+.AnchoTotal {
+    width:100%;
+}
+.Centrado {
+    text-align:center;
+}
+.FilaCabecera {
+    background-color:lightgray;
+    color:black;
+}
+.FilaDatos {
+    background-color:white;
+    color:black;
+}

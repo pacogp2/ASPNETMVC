@@ -1,0 +1,59 @@
+﻿
+@using WebInicio2016.EntidadesNegocio
+@{
+    ViewBag.Title = "Lista";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Lista</title>
+</head>
+<body>
+    <div>
+        <p>
+           @Html.ActionLink("Crear empleado", "Crear")  
+        </p>
+        @if (!@ViewBag.respuesta.OK)
+        {    
+            <script>alert("Error = @ViewBag.respuesta.mensaje");</script>
+            <h2>Error a mostrar: @ViewBag.respuesta.mensaje </h2>
+        }
+        else
+        {
+            <p>Listado de todos los empleados </p>
+            <p>  @Html.ActionLink("Siguiente página", "SiguientePagina") | Total:@ViewBag.NumRegistrosFiltro</p>
+            <table border=1>
+                <tr>
+                    <td>IdEmpleado</td>
+                    <td>Apellidos</td>
+                    <td>Nombre</td>
+                    <td>FechaNacimiento</td>
+                    <td>Operaciones a realizar</td>
+                </tr>
+                @foreach (enEmpleado oenEmpleado in @ViewBag.respuesta.datos)
+                {
+                    <tr class="FilaDatos">
+                        <td>@oenEmpleado.IdEmpleado</td>
+                        <td>@oenEmpleado.Apellido</td>
+                        <td>@oenEmpleado.Nombre</td>
+                        <td>@oenEmpleado.FechaNacimiento.ToShortDateString()</td>
+                        <td>
+                            <a title="Editar" href="../EmpleadoMan/Editar?ID=@oenEmpleado.IdEmpleado">Editar:@oenEmpleado.IdEmpleado</a> |
+                            <a href="../EmpleadoMan/Borrar?ID=@oenEmpleado.IdEmpleado" onclick="return confirm('¿Estas seguro?');"><button type="submit">Borrar:@oenEmpleado.IdEmpleado </button></a> |
+                            @Html.ActionLink("Detalle: " + @oenEmpleado.IdEmpleado, "Detalle", new { ID = @oenEmpleado.IdEmpleado })
+                        </td>   
+                    </tr>
+                }
+            </table>
+        }
+        <div>
+            @Html.ActionLink("Ir al indice", "Index")
+        </div>
+    </div>
+</body>
+</html>
+
+

@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Detalle";
+}
+
+<h2>Detalle</h2>
+<div>
+    <h4>Empleado</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>IdEmpleado:</dt>
+        <dd>@ViewBag.respuesta.datos.IdEmpleado</dd>
+        <dt>Apellido:</dt>
+        <dd>@ViewBag.respuesta.datos.Apellido</dd>
+        <dt>Nombre:</dt>
+        <dd>@ViewBag.respuesta.datos.Nombre</dd>
+        <dt>FechaNacimiento:</dt>
+        <dd>@ViewBag.respuesta.datos.FechaNacimiento</dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Ir a Editar", "Editar", new { ID = @ViewBag.respuesta.datos.IdEmpleado }) |
+    @Html.ActionLink("Listar los empleados", "Lista")
+</p>

@@ -1,0 +1,15 @@
+﻿@using WebInicio2016.EntidadesNegocio
+@model List<enEmpleado>
+@foreach (enEmpleado oenEmpleado in Model)
+{
+    <tr class="FilaDatos">
+        <td>@oenEmpleado.IdEmpleado</td>
+        <td>@oenEmpleado.Apellido</td>
+        <td>@oenEmpleado.Nombre</td>
+        <td>@oenEmpleado.FechaNacimiento.ToShortDateString()</td>
+    </tr>
+}
+<input id="hdfCampo" type="hidden" value="@ViewBag.Campo" />
+<input id="hdfSimbolo" type="hidden" value="@ViewBag.Simbolo" />
+
+

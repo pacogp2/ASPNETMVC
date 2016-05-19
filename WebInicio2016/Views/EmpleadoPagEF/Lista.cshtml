@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Lista";
+    WebGrid grid = new WebGrid(source: ViewBag.empleados, rowsPerPage: 3);
+}
+
+<h2>Lista</h2>
+@grid.GetHtml(
+       columns: new[]{
+       grid.Column("EmployeeID","El IdEmpleado"),
+       grid.Column("LastName","El apellido"),
+       grid.Column("FirstName","El nombre"),
+       grid.Column("BirthDate","Fecha nacimiento" ),
+       grid.Column(
+          "",
+          header: "Acciones",
+          format: @<text>
+            @Html.ActionLink("Editar", "Edit", new { id = item.EmployeeID })
+            |
+            @Html.ActionLink("Eliminar", "Delete", new { id = item.EmployeeID })
+        </text>
+            )
+       }
+ )

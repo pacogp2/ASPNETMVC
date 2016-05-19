@@ -1,0 +1,26 @@
+﻿@model WebInicio2016.Models.Employees
+@{
+    ViewBag.Title = "EmpleadoEFController.cs -> Lista";
+}
+
+<p>Listado de todos los empleados </p>
+<table border=1>
+    <tr>
+        <td>IdEmpleado</td>
+        <td>Apellidos</td>
+        <td>Nombre</td>
+        <td>FechaNacimiento</td>
+    </tr>
+    @foreach (WebInicio2016.Models.Employees oEmpleado in @ViewBag.empleados)
+    {
+        <tr class="FilaDatos">
+            <td>@oEmpleado.EmployeeID</td>
+            <td>@oEmpleado.LastName</td>
+            <td>@oEmpleado.FirstName</td>
+            <td>@oEmpleado.BirthDate</td>
+        </tr>
+    }
+</table>
+
+
+

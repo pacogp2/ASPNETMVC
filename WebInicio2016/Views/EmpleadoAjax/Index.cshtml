@@ -1,0 +1,208 @@
+﻿
+@using WebInicio2016.EntidadesNegocio
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Index</h2>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    Filtro para mostrar empleados:
+    <div>
+        <form method="post" action="" id="form-filtro" class="input-wrapper green-gradient glossy" title="Filtro">
+            <p class="message">
+                ¿datos del filtro? Rellena los datos
+                <span class="block-arrow"><span></span></span>
+            </p>
+            <ul class="inputs black-input large">
+                <li><span class="icon-lock mid-margin-right"></span><input type="text" name="Apellido" id="Apellido" value="" class="input-unstyled" placeholder="Apellido" autocomplete="off"></li>
+                <li><span class="icon-lock mid-margin-right"></span><input type="text" name="Nombre" id="Nombre" value="" class="input-unstyled" placeholder="Nombre" autocomplete="off"></li>
+            </ul>
+            <button type="submit" class="button glossy full-width" id="send-editar">Consultar por filtro</button>
+        </form>
+    </div>
+    <p>Listado de todos los empleados </p>
+    <p><input type='button' id="SiguientePagina" value='Siguiente página'> | Total: <span id="idNumRegFiltro">  </span>  <br /> 
+        <div id="resultados"></div>
+     <!-- @*   <p>
+        <input type='button' id="Crear" value='Crear empleado'>
+        @Html.ActionLink("Crear empleado", "Crear")
+    </p>  *@ -->
+        <div>
+            <form method="post" action="" id="form-crear" class="input-wrapper green-gradient glossy" title="Nuevo empleado">
+                <p class="message">
+                    ¿Empleado nuevo? Rellene los datos
+                    <span class="block-arrow"></span>
+                </p>
+                <ul class="inputs black-input large">
+                    <li><span class="icon-mail mid-margin-right"></span><input type="text" name="AltaApellido" id="AltaApellido" value="" class="input-unstyled" placeholder="AltaApellido" autocomplete="on"></li>
+                    <li><span class="icon-lock mid-margin-right"></span><input type="text" name="AltaNombre" id="AltaNombre" value="" class="input-unstyled" placeholder="AltaNombre" autocomplete="on"></li>
+                </ul>
+                <button type="submit" class="button glossy full-width" id="send-crear">Alta empleado</button>
+            </form>
+        </div><br />
+        Error devuelto por el proceso: <div id="idError"></div>
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/jquery-ui.min.js"></script>
+        <script>
+           var Filtrado = false;
+
+            $(document).ready(function () {
+                //   alert("sI");
+                $('#SiguientePagina').attr('disabled', true);
+
+                $('#form-filtro').submit(function (event) {
+                    var Apellido = $.trim($('#Apellido').val());
+                    var Nombre = $.trim($('#Nombre').val());
+                    event.preventDefault();
+                    $.ajax("/EmpleadoAjax/Lista", {
+                        data: {
+                            Apellido: Apellido,
+                            Nombre: Nombre,
+                        },
+                        async: false,
+                        success: function (resultado) {
+                            if (resultado.OK) {
+                                Filtrado = true;
+                                $('#idNumRegFiltro').text(resultado.IdEmpleado);
+                                verEmpleados(resultado.datos);
+                            }
+                            else {
+                                alert("Error devuelto: " + resultado.Mensaje);
+                                $('#idError').text(resultado.Mensaje);
+                            }
+                        },
+                        error: function () {
+                            alert('Error mientras conectaba con el servidor, porfavor intentalo de nuevo');
+                            $('#idError').text('Error mientras conectaba con el servidor, porfavor intentalo de nuevo');
+                        }
+                    });
+                });
+                $('#SiguientePagina').on("click", function (event) {
+                    event.preventDefault();
+                    $.ajax("/EmpleadoAjax/SiguientePagina", {
+                        async: false,
+                        success: function (resultado) {
+                            if (resultado.OK) {
+                                verEmpleados(resultado.datos)
+                            }
+                            else {
+                                alert("Error devuelto: " + resultado.mensaje);
+                                $('#idError').text(resultado.mensaje);
+                            }
+                        },
+                        error: function () {
+                            alert('Error mientras conectaba con el servidor, porfavor intentalo de nuevo');
+                            $('#idError').text('Error mientras conectaba con el servidor, porfavor intentalo de nuevo');
+                        }
+                    });
+                });
+            });
+            function verEmpleados(Empleados) 
+            {    
+                //    alert("Empleados = " + Empleados)
+                if (Filtrado) {
+                    $('#SiguientePagina').attr('disabled', false);
+                };  
+                var texto = "<table  border=1><tr>";
+                texto += "<tr><td>IdEmpleado</td><td>Apellidos</td>";
+                texto += "<td>Nombre</td><td>FechaNacimiento</td>";
+                texto += "<td colspan='2'>Operaciones a realizar</td></tr>";
+                for (var i = 0; i < Empleados.length; i++) {
+                    texto += "<tr>";
+                    texto += "<td>" + Empleados[i].IdEmpleado + "</td><td>" + Empleados[i].Apellido + "</td>";
+                    texto += "<td>" + Empleados[i].Nombre + "</td><td>" + Empleados[i].FechaNacimiento + "</td>";
+                    texto += "<td><input type='button' value='Borrar  " + Empleados[i].IdEmpleado + "'  onClick='borrarEmpleado(" + Empleados[i].IdEmpleado + ")';'></td>";
+                    texto += "<td><input type='button' value='Mostrar datos  " + Empleados[i].IdEmpleado + "' onClick='mostrarEmpleado(" + Empleados[i].IdEmpleado + ")';'></td>";
+                    texto += "</tr>";
+                }
+                texto += "</table>";
+                document.getElementById("resultados").innerHTML = texto;                
+            }
+
+            $('#SiguientePagina').on("click", function (event) {
+                event.preventDefault();
+                $.ajax("/EmpleadoAjax/SiguientePagina", {
+                    success: function (resultado) {
+                        if (resultado.OK) {
+                            verEmpleados(resultado.datos)
+                        }
+                        else {
+                            alert("Error devuelto: " + data.mensaje);
+                        }
+                    },
+                    error: function () {
+                        alert('Error mientras conectaba con el servidor, porfavor intentalo de nuevo');
+                    }
+                });
+            });
+            //      borrarEmpleado
+            function borrarEmpleado(id) {
+                if (confirm("¿Seguro que desea borrar el registro de " + id, "titulo")) {
+                    $.ajax("/EmpleadoAjax/Borrar", {
+                        data: {
+                            ID: id,
+                        },
+                        success: function (resultado) {
+                            if (resultado.OK) {
+                                if (resultado.datos == 1) {
+                                    borrarDatos();
+                                }
+                                else
+                                {
+                                    alert("Valor de resultado.datos: " + resultado.datos);
+                                    $('#idError').text(resultado.datos);
+                                }
+                            }
+                            else {
+                                alert("Error devuelto: " + resultado.mensaje);
+                                $('#idError').text(resultado.mensaje);
+                            }
+                        },
+                        error: function () {
+                            alert('Error mientras conectaba con el servidor, porfavor intentalo de nuevo');
+                            $('#idError').text('Error mientras conectaba con el servidor, porfavor intentalo de nuevo');
+                        }
+                    });
+                }
+            }
+
+            //   Alta de empleado
+            $('#form-crear').submit(function (event) {
+                var Apellido = $.trim($('#AltaApellido').val());
+                var Nombre = $.trim($('#AltaNombre').val());
+                event.preventDefault();
+                $.ajax("/EmpleadoAjax/Crear", {
+                    data: {
+                        Apellido: Apellido,
+                        Nombre: Nombre,
+                    },
+                    async: false,
+                    success: function (resultado) {
+                        if (resultado.OK) {
+                            borrarDatos();
+                        }
+                        else {
+                            alert("Error devuelto: " + resultado.mensaje);
+                            $('#idError').text(resultado.mensaje);
+                        }
+                    },
+                    error: function () {
+                        alert('Error mientras conectaba con el servidor, porfavor intentalo de nuevo');
+                        $('#idError').text('Error mientras conectaba con el servidor, porfavor intentalo de nuevo');
+                    }
+                });
+            });
+            function borrarDatos() {
+                $('#idNumRegFiltro').text("");
+                $('#SiguientePagina').attr('disabled', true);
+                $('#AltaApellido').val("");
+                $('#AltaNombre').val("");
+                document.getElementById("resultados").innerHTML = "";
+            };
+        </script>
+</body>
+</html>
